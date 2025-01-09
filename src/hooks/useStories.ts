@@ -8,11 +8,17 @@ export function useStories(userId?: string) {
   const [error, setError] = useState<Error | null>(null);
 
   const fetchStories = useCallback(async () => {
+    if (!userId) {
+      setStories([]);
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
       const data = await storage.getStories(userId);
-      setStories(data);
+      setStories(data || []);
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Failed to fetch stories'));
     } finally {

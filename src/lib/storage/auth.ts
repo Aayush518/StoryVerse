@@ -1,48 +1,66 @@
 import { Profile } from '../../types';
-import { Storage } from './base';
 
-const TEST_USER: Profile = {
-  id: 'test-user',
-  email: 'test@example.com',
-  name: 'Test User',
-  level: 1,
-  xp: 0,
-  created_at: new Date().toISOString(),
-  updated_at: new Date().toISOString()
+const STORAGE_KEY = 'storyverse_auth';
+
+interface StoredAuth {
+  users: Profile[];
+  currentUser: Profile | null;
+}
+
+const initialAuth: StoredAuth = {
+  users: [
+    {
+      id: 'test-user',
+      email: 'test@example.com',
+      name: 'Test User',
+      level: 1,
+      xp: 0,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    }
+  ],
+  currentUser: null
 };
 
-export class AuthStorage extends Storage {
+export class AuthStorage {
+  private data: StoredAuth;
+
   constructor() {
-    super();
-    // Add test user if not exists
-    if (!this.data.profiles.find(p => p.email === TEST_USER.email)) {
-      this.data.profiles.push(TEST_USER);
-    }
+    const stored = localStorage.getItem(STORAGE_KEY);
+    this.data = stored ? JSON.parse(stored) : initialAuth;
+  }
+
+  private save() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
   }
 
   async signIn(email: string, password: string): Promise<Profile> {
-    // Test user login
-    if (email === 'test' && password === 'test') {
-      return this.enrichProfile(TEST_USER);
+    // For demo purposes, accept any password for test@example.com
+    if (email === 'test@example.com') {
+      const user = this.data.users.find(u => u.email === email);
+      if (user) {
+        this.data.currentUser = user;
+        this.save();
+        return user;
+      }
     }
 
-    const profile = this.data.profiles.find(p => p.email === email);
-    if (!profile) {
+    const user = this.data.users.find(u => u.email === email);
+    if (!user) {
       throw new Error('Invalid credentials');
     }
-    return this.enrichProfile(profile);
+
+    this.data.currentUser = user;
+    this.save();
+    return user;
   }
 
   async signUp(email: string, password: string, name: string): Promise<Profile> {
-    if (!email || !password || !name) {
-      throw new Error('All fields are required');
-    }
-
-    if (this.data.profiles.some(p => p.email === email)) {
+    if (this.data.users.some(u => u.email === email)) {
       throw new Error('Email already exists');
     }
 
-    const profile: Profile = {
+    const newUser: Profile = {
       id: crypto.randomUUID(),
       email,
       name,
@@ -52,19 +70,20 @@ export class AuthStorage extends Storage {
       updated_at: new Date().toISOString()
     };
 
-    this.data.profiles.push(profile);
+    this.data.users.push(newUser);
+    this.data.currentUser = newUser;
     this.save();
-    return this.enrichProfile(profile);
+    return newUser;
   }
 
-  private enrichProfile(profile: Profile) {
-    return {
-      ...profile,
-      stories: this.data.stories.filter(s => s.author_id === profile.id),
-      universes: this.data.universes.filter(u => u.creator_id === profile.id),
-      badges: this.data.userBadges
-        .filter(ub => ub.userId === profile.id)
-        .map(ub => this.data.badges.find(b => b.id === ub.badgeId)!)
-    };
+  async signOut(): Promise<void> {
+    this.data.currentUser = null;
+    this.save();
+  }
+
+  getCurrentUser(): Profile | null {
+    return this.data.currentUser;
   }
 }
+
+export const authStorage = new AuthStorage();

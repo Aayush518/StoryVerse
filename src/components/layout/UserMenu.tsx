@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { User, LogOut, Settings, BookOpen, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { User, LogOut, Settings, BookOpen, Trophy, ChevronDown } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 export default function UserMenu() {
@@ -32,69 +32,67 @@ export default function UserMenu() {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center space-x-2 p-2 rounded-lg hover:bg-white/10 transition-colors"
       >
-        <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
-          <User className="h-5 w-5" />
+        <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
+          {user.avatar ? (
+            <img src={user.avatar} alt="" className="w-8 h-8 rounded-full" />
+          ) : (
+            <span className="text-lg font-bold text-primary">{user.name[0]}</span>
+          )}
         </div>
-        <span className="text-white hidden md:block">{user.name}</span>
+        <span className="text-sm font-medium hidden md:block">{user.name}</span>
+        <ChevronDown className={`h-4 w-4 transition-transform duration-200 hidden md:block ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-64 bg-black/90 backdrop-blur-xl border border-white/10 rounded-xl shadow-lg py-2 animate-fadeIn">
-          <div className="px-4 py-2 border-b border-white/10">
-            <p className="text-sm text-gray-400">Level {user.level}</p>
-            <div className="mt-1 h-2 bg-black/60 rounded-full">
+        <div className="absolute right-0 mt-2 w-64 bg-card/95 backdrop-blur-xl border border-border rounded-xl shadow-lg py-2 animate-in fade-in slide-in-from-top-2">
+          <div className="px-4 py-2 border-b border-border">
+            <p className="text-sm text-muted-foreground">Level {user.level}</p>
+            <div className="mt-1 h-2 bg-black/60 rounded-full overflow-hidden">
               <div
-                className="h-full bg-purple-600 rounded-full transition-all duration-500"
+                className="h-full bg-primary rounded-full transition-all duration-500"
                 style={{ width: `${(user.xp % 1000) / 10}%` }}
               />
             </div>
           </div>
 
-          <Link
-            to="/profile"
-            className="flex items-center space-x-2 px-4 py-2 text-gray-300 hover:bg-white/10 transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            <User className="h-4 w-4" />
-            <span>Profile</span>
-          </Link>
+          <div className="py-1">
+            <MenuLink to="/profile" icon={User}>Profile</MenuLink>
+            <MenuLink to="/my-stories" icon={BookOpen}>My Stories</MenuLink>
+            <MenuLink to="/achievements" icon={Trophy}>Achievements</MenuLink>
+            <MenuLink to="/settings" icon={Settings}>Settings</MenuLink>
+          </div>
 
-          <Link
-            to="/my-stories"
-            className="flex items-center space-x-2 px-4 py-2 text-gray-300 hover:bg-white/10 transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            <BookOpen className="h-4 w-4" />
-            <span>My Stories</span>
-          </Link>
-
-          <Link
-            to="/achievements"
-            className="flex items-center space-x-2 px-4 py-2 text-gray-300 hover:bg-white/10 transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            <Trophy className="h-4 w-4" />
-            <span>Achievements</span>
-          </Link>
-
-          <Link
-            to="/settings"
-            className="flex items-center space-x-2 px-4 py-2 text-gray-300 hover:bg-white/10 transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            <Settings className="h-4 w-4" />
-            <span>Settings</span>
-          </Link>
-
-          <button
-            onClick={handleSignOut}
-            className="flex items-center space-x-2 px-4 py-2 text-red-400 hover:bg-white/10 transition-colors w-full"
-          >
-            <LogOut className="h-4 w-4" />
-            <span>Logout</span>
-          </button>
+          <div className="border-t border-border pt-1 mt-1">
+            <button
+              onClick={handleSignOut}
+              className="w-full flex items-center space-x-2 px-4 py-2 text-sm text-destructive hover:bg-destructive/10 transition-colors"
+            >
+              <LogOut className="h-4 w-4" />
+              <span>Logout</span>
+            </button>
+          </div>
         </div>
       )}
     </div>
+  );
+}
+
+function MenuLink({ 
+  to, 
+  icon: Icon, 
+  children 
+}: { 
+  to: string; 
+  icon: React.ElementType; 
+  children: React.ReactNode; 
+}) {
+  return (
+    <Link
+      to={to}
+      className="flex items-center space-x-2 px-4 py-2 text-sm hover:bg-white/5 transition-colors"
+    >
+      <Icon className="h-4 w-4" />
+      <span>{children}</span>
+    </Link>
   );
 }
