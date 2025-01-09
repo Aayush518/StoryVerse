@@ -167,7 +167,7 @@ npm run dev
 
 ## 🤝 Contributing
 
-We welcome any kind of contributions!
+I welcome any kind of contributions!
 
 ---
 
