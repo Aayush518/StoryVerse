@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trophy, Star, BookOpen, Users } from 'lucide-react';
+import { Trophy, Star, BookOpen, Users, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function Profile() {
@@ -11,20 +11,24 @@ export default function Profile() {
   const badges = user.badges || [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 pt-16">
-      <div className="max-w-6xl mx-auto px-4">
+    <div className="min-h-screen pt-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="bg-gradient-to-r from-indigo-500 to-blue-600 rounded-2xl p-8 shadow-xl">
+        <div className="glass-card rounded-2xl p-8 bg-gradient-to-r from-primary/10 to-accent/10">
           <div className="flex items-center gap-6">
-            <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg">
-              <span className="text-2xl font-bold text-indigo-600">{user.name[0]}</span>
+            <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center">
+              {user.avatar ? (
+                <img src={user.avatar} alt="" className="w-20 h-20 rounded-full" />
+              ) : (
+                <span className="text-2xl font-bold text-primary">{user.name[0]}</span>
+              )}
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white mb-1">{user.name}</h1>
-              <div className="flex items-center gap-2 text-indigo-100">
-                <Star className="h-4 w-4" />
+              <h1 className="text-2xl font-bold text-foreground mb-1">{user.name}</h1>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Star className="h-4 w-4 text-yellow-500" />
                 <span>Level {user.level}</span>
-                <span className="text-indigo-200">•</span>
+                <span className="text-border">•</span>
                 <span>{user.xp} XP</span>
               </div>
             </div>
@@ -33,44 +37,30 @@ export default function Profile() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-4 border border-white/10">
-            <BookOpen className="h-5 w-5 text-blue-400 mb-2" />
-            <div className="text-2xl font-bold text-white">{stories.length}</div>
-            <div className="text-sm text-slate-400">Stories</div>
-          </div>
-          
-          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-4 border border-white/10">
-            <Users className="h-5 w-5 text-emerald-400 mb-2" />
-            <div className="text-2xl font-bold text-white">{universes.length}</div>
-            <div className="text-sm text-slate-400">Collaborations</div>
-          </div>
-          
-          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-4 border border-white/10">
-            <Trophy className="h-5 w-5 text-amber-400 mb-2" />
-            <div className="text-2xl font-bold text-white">{badges.length}</div>
-            <div className="text-sm text-slate-400">Badges</div>
-          </div>
-          
-          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-4 border border-white/10">
-            <Star className="h-5 w-5 text-purple-400 mb-2" />
-            <div className="text-2xl font-bold text-white">{user.xp}</div>
-            <div className="text-sm text-slate-400">Experience</div>
-          </div>
+          <StatCard icon={BookOpen} value={stories.length} label="Stories" color="blue" />
+          <StatCard icon={Users} value={universes.length} label="Collaborations" color="emerald" />
+          <StatCard icon={Trophy} value={badges.length} label="Badges" color="amber" />
+          <StatCard icon={Sparkles} value={user.xp} label="Experience" color="purple" />
         </div>
 
         {/* Content Grid */}
         <div className="grid md:grid-cols-2 gap-6 mt-6">
           {/* Stories */}
-          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10">
-            <h2 className="text-lg font-semibold text-white mb-4">Recent Stories</h2>
+          <div className="glass-card rounded-xl p-6">
+            <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+              <BookOpen className="h-5 w-5 text-primary" />
+              Recent Stories
+            </h2>
             {stories.length === 0 ? (
-              <p className="text-slate-400">No stories yet</p>
+              <p className="text-muted-foreground">No stories yet</p>
             ) : (
               <div className="space-y-3">
                 {stories.map(story => (
-                  <div key={story.id} className="bg-white/5 rounded-lg p-3 hover:bg-white/10 transition-colors">
-                    <h3 className="font-medium text-white">{story.title}</h3>
-                    <p className="text-sm text-slate-400 mt-1">{story.description}</p>
+                  <div key={story.id} className="group glass-card rounded-lg p-3 hover:bg-card/95 transition-all duration-300">
+                    <h3 className="font-medium text-foreground group-hover:text-primary transition-colors">
+                      {story.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mt-1">{story.description}</p>
                   </div>
                 ))}
               </div>
@@ -78,16 +68,21 @@ export default function Profile() {
           </div>
 
           {/* Badges */}
-          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10">
-            <h2 className="text-lg font-semibold text-white mb-4">Achievements</h2>
+          <div className="glass-card rounded-xl p-6">
+            <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+              <Trophy className="h-5 w-5 text-primary" />
+              Achievements
+            </h2>
             {badges.length === 0 ? (
-              <p className="text-slate-400">No badges earned yet</p>
+              <p className="text-muted-foreground">No badges earned yet</p>
             ) : (
               <div className="grid grid-cols-2 gap-3">
                 {badges.map((badge, index) => (
-                  <div key={index} className="bg-white/5 rounded-lg p-3 hover:bg-white/10 transition-colors">
-                    <Trophy className="h-5 w-5 text-amber-400 mb-2" />
-                    <p className="font-medium text-white">{badge}</p>
+                  <div key={index} className="group glass-card rounded-lg p-3 hover:bg-card/95 transition-all duration-300">
+                    <Trophy className="h-5 w-5 text-yellow-500 mb-2" />
+                    <p className="font-medium text-foreground group-hover:text-primary transition-colors">
+                      {badge}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -95,6 +90,32 @@ export default function Profile() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+interface StatCardProps {
+  icon: React.ElementType;
+  value: number;
+  label: string;
+  color: 'blue' | 'emerald' | 'amber' | 'purple';
+}
+
+function StatCard({ icon: Icon, value, label, color }: StatCardProps) {
+  const colors = {
+    blue: 'text-blue-500 bg-blue-500/10 border-blue-500/20',
+    emerald: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20',
+    amber: 'text-amber-500 bg-amber-500/10 border-amber-500/20',
+    purple: 'text-purple-500 bg-purple-500/10 border-purple-500/20'
+  };
+
+  return (
+    <div className="glass-card rounded-xl p-4 hover:scale-105 transition-transform duration-300">
+      <div className={`inline-flex p-2 rounded-lg ${colors[color]}`}>
+        <Icon className="h-5 w-5" />
+      </div>
+      <div className="text-2xl font-bold text-foreground mt-2">{value}</div>
+      <div className="text-sm text-muted-foreground">{label}</div>
     </div>
   );
 }

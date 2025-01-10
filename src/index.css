@@ -62,13 +62,86 @@
 }
 
 .glass-card {
-  @apply bg-card/90 dark:bg-card/90 backdrop-blur-xl border border-border/50 shadow-xl;
+  @apply bg-white/95 dark:bg-card/90 backdrop-blur-xl border border-border/50 shadow-lg p-8 rounded-2xl;
 }
 
 .glass-hover {
-  @apply hover:bg-card/95 dark:hover:bg-card/95 transition-all duration-300;
+  @apply hover:bg-white/90 dark:hover:bg-card/95 transition-all duration-300;
 }
 
+/* Improved light mode card styles */
+.light .glass-card {
+  @apply bg-white/95 shadow-sm border-gray-200/50;
+}
+
+.light .glass-hover:hover {
+  @apply bg-white shadow-md;
+}
+
+/* Improved sidebar for light mode */
+.light .sidebar {
+  @apply bg-white/95 border-gray-200/50;
+}
+
+.light .sidebar-item {
+  @apply text-gray-700 hover:bg-gray-100/80;
+}
+
+.light .sidebar-item.active {
+  @apply bg-primary/10 text-primary;
+}
+
+/* Settings section light mode improvements */
+.light .settings-section {
+  @apply bg-white hover:bg-gray-50/80 border-gray-200/50;
+}
+
+.light .settings-input {
+  @apply bg-white border-gray-200 focus:border-primary/30;
+}
+
+/* Explore page light mode improvements */
+.light .explore-card {
+  @apply bg-white hover:bg-gray-50/90 border-gray-200/50;
+}
+
+
+.light .explore-tag {
+  @apply bg-primary/10 text-primary;
+}
+
+/* Marketplace NFT cards light mode */
+.light .nft-card {
+  @apply bg-white hover:bg-gray-50/90 border-gray-200/50;
+}
+
+.light .nft-tag {
+  @apply bg-primary/10 text-primary;
+}
+
+/* Menu light mode improvements */
+.light .menu-item {
+  @apply text-gray-700 hover:bg-gray-100/80;
+}
+
+.light .menu-item.active {
+  @apply bg-primary/10 text-primary;
+}
+
+/* Auth modal light mode improvements */
+.light .auth-input {
+  @apply bg-white border-gray-200 text-gray-900 focus:border-primary/30;
+}
+
+.light .auth-button {
+  @apply bg-primary text-white hover:bg-primary/90;
+}
+
+.light .auth-button-secondary {
+  @apply bg-gray-50 text-gray-900 hover:bg-gray-100 border-gray-200;
+}
+
+/* Animation keyframes */
 @keyframes float {
   0%, 100% { transform: translateY(0) rotate(0); }
   50% { transform: translateY(-20px) rotate(5deg); }

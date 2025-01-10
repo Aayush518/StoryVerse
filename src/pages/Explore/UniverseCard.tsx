@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Users, BookOpen, Star, ChevronRight } from 'lucide-react';
 import { Universe } from '../../types';
@@ -9,11 +8,8 @@ interface UniverseCardProps {
 
 export default function UniverseCard({ universe }: UniverseCardProps) {
   return (
-    <Link 
-      to={`/universe/${universe.id}`}
-      className="group block"
-    >
-      <div className="explore-card glass-card rounded-xl p-6 hover:bg-white/95 dark:hover:bg-card/95 transition-all duration-300 hover:shadow-lg">
+    <Link to={`/universe/${universe.id}`} className="group block">
+      <div className="glass-card rounded-xl p-6 hover:bg-white/95 dark:hover:bg-card/95 transition-all duration-300">
         <div className="flex items-start justify-between mb-4">
           <div>
             <h3 className="text-xl font-bold bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text group-hover:scale-105 transition-transform duration-300">
@@ -27,10 +23,10 @@ export default function UniverseCard({ universe }: UniverseCardProps) {
         </div>
 
         <div className="flex flex-wrap gap-2 mb-4">
-          {universe.tags?.map(tag => (
-            <span 
+          {universe.tags?.map((tag) => (
+            <span
               key={tag}
-              className="explore-tag px-3 py-1 rounded-full text-sm"
+              className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm"
             >
               {tag}
             </span>

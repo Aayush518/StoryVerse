@@ -36,54 +36,54 @@ export default function RegisterModal({ isOpen, onClose, onSwitchToLogin }: Regi
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-900 p-8 rounded-xl w-full max-w-md relative border border-white/10">
+    <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+      <div className="glass-card w-full max-w-md relative">
         <button 
           onClick={onClose} 
-          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+          className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
         >
           <X className="h-5 w-5" />
         </button>
         
-        <h2 className="text-2xl font-bold text-white mb-6">Create Account</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-6">Create Account</h2>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-2 rounded flex items-center space-x-2">
+            <div className="bg-destructive/10 border border-destructive/50 text-destructive px-4 py-2 rounded flex items-center space-x-2">
               <AlertCircle className="h-5 w-5" />
               <span>{error}</span>
             </div>
           )}
           
           <div>
-            <label className="block text-gray-300 mb-2">Name</label>
+            <label className="block text-foreground mb-2">Name</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full bg-black/60 text-white border border-white/10 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+              className="w-full bg-background text-foreground border border-border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
               placeholder="Enter your name"
             />
           </div>
           
           <div>
-            <label className="block text-gray-300 mb-2">Email</label>
+            <label className="block text-foreground mb-2">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-black/60 text-white border border-white/10 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+              className="w-full bg-background text-foreground border border-border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
               placeholder="Enter your email"
             />
           </div>
           
           <div>
-            <label className="block text-gray-300 mb-2">Password</label>
+            <label className="block text-foreground mb-2">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-black/60 text-white border border-white/10 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+              className="w-full bg-background text-foreground border border-border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
               placeholder="Choose a password"
             />
           </div>
@@ -91,17 +91,17 @@ export default function RegisterModal({ isOpen, onClose, onSwitchToLogin }: Regi
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
           >
             {loading ? <LoadingSpinner /> : 'Create Account'}
           </button>
         </form>
         
-        <p className="text-gray-400 text-center mt-6">
+        <p className="text-muted-foreground text-center mt-6">
           Already have an account?{' '}
           <button
             onClick={onSwitchToLogin}
-            className="text-purple-400 hover:text-purple-300 transition-colors"
+            className="text-primary hover:text-primary/80 transition-colors"
           >
             Sign In
           </button>

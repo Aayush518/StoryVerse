@@ -160,33 +160,33 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
                   </button>
 
                   {showNotifications && (
-                    <div className="absolute right-0 mt-2 w-80 bg-card/95 backdrop-blur-xl border border-border rounded-xl shadow-lg py-2 animate-in fade-in slide-in-from-top-2">
-                      <div className="px-4 py-2 border-b border-border flex justify-between items-center">
-                        <h3 className="font-semibold">Notifications</h3>
-                        {unreadCount > 0 && (
-                          <button
-                            onClick={markAllAsRead}
-                            className="text-sm text-primary hover:text-primary/80"
-                          >
-                            Mark all as read
-                          </button>
-                        )}
-                      </div>
+                    <div className="absolute right-0 mt-2 w-64 glass-card rounded-xl shadow-lg py-2 animate-in fade-in slide-in-from-top-2">
+  <div className="px-4 py-2 border-b border-gray-200 dark:border-white/10 flex justify-between items-center">
+    <h3 className="font-semibold text-gray-900 dark:text-white">Notifications</h3>
+    {unreadCount > 0 && (
+      <button
+        onClick={markAllAsRead}
+        className="text-sm text-primary hover:text-primary/80"
+      >
+        Mark all as read
+      </button>
+    )}
+  </div>
 
-                      <div className="max-h-[400px] overflow-y-auto">
-                        {notifications.length === 0 ? (
-                          <div className="px-4 py-8 text-center text-muted-foreground">
-                            No notifications
-                          </div>
-                        ) : (
-                          notifications.map(notification => (
-                            <div
-                              key={notification.id}
-                              className={`px-4 py-3 hover:bg-white/5 transition-colors relative ${
-                                !notification.read ? 'bg-primary/5' : ''
-                              }`}
-                              onClick={() => markAsRead(notification.id)}
-                            >
+  <div className="max-h-[400px] overflow-y-auto">
+    {notifications.length === 0 ? (
+      <div className="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
+        No notifications
+      </div>
+    ) : (
+      notifications.map(notification => (
+        <div
+          key={notification.id}
+          className={`px-4 py-3 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors relative ${
+            !notification.read ? 'bg-primary/5' : ''
+          }`}
+          onClick={() => markAsRead(notification.id)}
+        >
                               <div className="flex gap-3">
                                 <span className="text-xl">{getNotificationIcon(notification.type)}</span>
                                 <div className="flex-1 min-w-0">
