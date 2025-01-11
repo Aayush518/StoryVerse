@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Search,
   Filter,
@@ -13,12 +13,12 @@ import {
   ChevronDown,
   Sparkles,
   Star,
-} from "lucide-react";
-import { useAuth } from "../context/AuthContext";
-import { useStories } from "../hooks/useStories";
-import { useToastContext } from "../context/ToastContext";
-import LoadingSpinner from "../components/ui/LoadingSpinner";
-import Button from "../components/ui/Button";
+} from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { useStories } from '../hooks/useStories';
+import { useToastContext } from '../context/ToastContext';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import Button from '../components/ui/Button';
 
 export default function MyStories() {
   const { user } = useAuth();
@@ -30,9 +30,9 @@ export default function MyStories() {
     refreshStories,
   } = useStories(user?.id);
   const { addToast } = useToastContext();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [tagFilter, setTagFilter] = useState("all");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [tagFilter, setTagFilter] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
 
   const filteredStories = stories?.filter((story) => {
@@ -40,19 +40,19 @@ export default function MyStories() {
       story.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       story.description?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus =
-      statusFilter === "all" || story.status === statusFilter;
-    const matchesTag = tagFilter === "all" || story.tags?.includes(tagFilter);
+      statusFilter === 'all' || story.status === statusFilter;
+    const matchesTag = tagFilter === 'all' || story.tags?.includes(tagFilter);
     return matchesSearch && matchesStatus && matchesTag;
   });
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm("Are you sure you want to delete this story?")) return;
+    if (!window.confirm('Are you sure you want to delete this story?')) return;
     try {
       await deleteStory(id);
-      addToast("Story deleted successfully", "success");
+      addToast('Story deleted successfully', 'success');
       refreshStories();
     } catch (err) {
-      addToast("Failed to delete story", "error");
+      addToast('Failed to delete story', 'error');
     }
   };
 
@@ -170,9 +170,9 @@ export default function MyStories() {
               </div>
               <h3 className="text-xl font-semibold mb-2">No stories found</h3>
               <p className="text-muted-foreground mb-6">
-                {searchTerm || statusFilter !== "all" || tagFilter !== "all"
-                  ? "No stories match your search criteria"
-                  : "Start your creative journey by writing your first story"}
+                {searchTerm || statusFilter !== 'all' || tagFilter !== 'all'
+                  ? 'No stories match your search criteria'
+                  : 'Start your creative journey by writing your first story'}
               </p>
               <Link to="/create">
                 <Button
@@ -245,11 +245,11 @@ export default function MyStories() {
                     <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                       <span
                         className={`px-3 py-1 rounded-full ${
-                          story.status === "published"
-                            ? "bg-green-500/20 text-green-400"
-                            : story.status === "archived"
-                            ? "bg-background text-muted-foreground"
-                            : "bg-yellow-500/20 text-yellow-400"
+                          story.status === 'published'
+                            ? 'bg-green-500/20 text-green-400'
+                            : story.status === 'archived'
+                            ? 'bg-background text-muted-foreground'
+                            : 'bg-yellow-500/20 text-yellow-400'
                         }`}
                       >
                         {story.status.charAt(0).toUpperCase() +
@@ -272,7 +272,7 @@ export default function MyStories() {
                       </div>
 
                       <span className="text-muted-foreground/70">
-                        Last edited:{" "}
+                        Last edited:{' '}
                         {new Date(story.updated_at).toLocaleDateString()}
                       </span>
                     </div>
